@@ -1,0 +1,21 @@
+{
+"type": "FeatureCollection",
+"features": [
+{
+"type": "Feature",
+"properties": {
+"name": "Vegetation Zone"
+},
+"geometry": {
+"type": "Polygon",
+"coordinates": [[
+[72.89,19.08],
+[72.90,19.08],
+[72.90,19.07],
+[72.89,19.07],
+[72.89,19.08]
+]]
+}
+}
+]
+}

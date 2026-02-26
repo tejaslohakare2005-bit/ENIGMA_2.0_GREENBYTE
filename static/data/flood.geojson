@@ -1,0 +1,21 @@
+{
+"type": "FeatureCollection",
+"features": [
+{
+"type": "Feature",
+"properties": {
+"name": "Mumbai Flood Zone"
+},
+"geometry": {
+"type": "Polygon",
+"coordinates": [[
+[72.875,19.072],
+[72.885,19.072],
+[72.885,19.065],
+[72.875,19.065],
+[72.875,19.072]
+]]
+}
+}
+]
+}
