@@ -1,63 +1,49 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask import Flask, render_template, request, jsonify
 import requests
-import random
-import time
-import threading
 
 app = Flask(__name__)
-socketio = SocketIO(app)
-
-# Mumbai coordinates
-LAT = 19.076
-LON = 72.8777
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-def get_weather():
-    try:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}&current_weather=true"
-        response = requests.get(url).json()
+@app.route("/weather")
+def weather():
 
-        temp = response["current_weather"]["temperature"]
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
 
-        return temp
+    # Open-Meteo API link (FREE, no key needed)
+    url = (
+        f"https://api.open-meteo.com/v1/forecast"
+        f"?latitude={lat}"
+        f"&longitude={lon}"
+        f"&current_weather=true"
+        f"&hourly=relative_humidity_2m,soil_moisture_0_to_1cm"
+    )
 
-    except:
-        return 30
+    response = requests.get(url).json()
 
+    temperature = response["current_weather"]["temperature"]
 
-def send_data():
-    while True:
+    humidity = response["hourly"]["relative_humidity_2m"][0]
+    soil = response["hourly"]["soil_moisture_0_to_1cm"][0]
 
-        temperature = get_weather()
+    flood = round(soil * 100)
+    vegetation = humidity
+    water = flood
+    air = humidity
 
-        data = {
-            "temperature": temperature,
-            "flood": random.randint(30,80),
-            "vegetation": random.randint(40,90),
-            "density": random.randint(60,95),
-            "water": random.randint(20,70),
-            "air": random.randint(50,200)
-        }
-
-        socketio.emit("update", data)
-
-        time.sleep(10)
-
-
-@socketio.on("connect")
-def connect():
-    print("Client connected")
-
-
-thread = threading.Thread(target=send_data)
-thread.daemon = True
-thread.start()
+    return jsonify({
+        "temperature": temperature,
+        "flood": flood,
+        "vegetation": vegetation,
+        "water": water,
+        "air": air
+    })
 
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    app.run(debug=True)
+    
