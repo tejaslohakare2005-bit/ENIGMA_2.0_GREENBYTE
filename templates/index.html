@@ -1,96 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<title>SkyCity – Mumbai Digital Twin</title>
+<meta charset="utf-8">
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyCity Digital Twin</title>
 
-<!-- MapLibre -->
-<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
-<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-<!-- Socket.IO -->
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-}
-
-#map{
-position:absolute;
-top:0;
-bottom:0;
-width:100%;
-height:100vh;
-}
-
-.panel{
-
-position:absolute;
-top:20px;
-left:20px;
-
-background:rgba(0,0,0,0.7);
-color:white;
-
-padding:15px;
-border-radius:10px;
-
-font-size:16px;
-z-index:10;
-
-}
-
-.title{
-
-position:absolute;
-top:10px;
-left:20px;
-
-font-size:28px;
-font-weight:bold;
-
-color:black;
-z-index:11;
-
-}
-
-</style>
+<link rel="stylesheet" href="/static/style.css">
 
 </head>
+
 <body>
 
-<div class="title">
-SkyCity – Mumbai Digital Twin
-</div>
 
+<div id="panel">
 
-<div class="panel">
+<h3>SkyCity Digital Twin</h3>
+
+Latitude:
+<span id="lat">--</span><br>
+
+Longitude:
+<span id="lon">--</span><br><br>
 
 Temperature:
-<span id="temp">--</span> °C
-<br>
+<span id="temp">--</span> °C<br>
 
 Flood Risk:
-<span id="flood">--</span> %
-<br>
+<span id="flood">--</span> %<br>
 
 Vegetation:
-<span id="veg">--</span> %
-<br>
-
-Building Density:
-<span id="density">--</span> %
-<br>
+<span id="vegetation">--</span> %<br>
 
 Water Stress:
-<span id="water">--</span> %
-<br>
+<span id="water">--</span> %<br>
 
 Air Quality:
 <span id="air">--</span>
@@ -102,35 +51,6 @@ Air Quality:
 
 
 <script src="/static/script.js"></script>
-
-
-<script>
-
-var socket = io();
-
-socket.on("update", function(data){
-
-document.getElementById("temp").innerText =
-data.temp;
-
-document.getElementById("flood").innerText =
-data.flood;
-
-document.getElementById("veg").innerText =
-data.veg;
-
-document.getElementById("density").innerText =
-data.density;
-
-document.getElementById("water").innerText =
-data.water;
-
-document.getElementById("air").innerText =
-data.air;
-
-});
-
-</script>
 
 
 </body>
